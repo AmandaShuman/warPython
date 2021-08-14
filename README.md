@@ -15,3 +15,4 @@ The game ends when one player has won all the cards.
 
 # Skills learned
 1 - how to combine strings in different lists together using a for loop
+2 - using set() to find the compliment of a list when order doesn't matter

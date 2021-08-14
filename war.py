@@ -1,7 +1,10 @@
+import random
+
 num_cards = ["1", "2", "3", "4", "5", "6", "7",
              "8", "9", "10", "Jack", "Queen", "King", "Ace"]
 suits = ["Hearts", "Spades", "Diamonds", "Clubs"]
 
+#build deck of cards
 hearts = []
 spades = []
 diamonds = []
@@ -17,4 +20,12 @@ for i in range(13):
     clubs.append(club_card)
 
 deck_of_cards = hearts + diamonds + spades + clubs
-print(deck_of_cards)
+
+#shuffle deck and separate into 2 piles for each player
+player1_deck = random.sample(deck_of_cards, 26)
+player2_deck = set(deck_of_cards) - set(player1_deck)
+
+print(player1_deck)
+print(player2_deck)
+
+#time to play!
