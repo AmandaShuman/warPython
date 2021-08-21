@@ -14,22 +14,10 @@ def full_deck():
             random.shuffle(deck)
     return deck
 
-def sublist(suit):
-    global deck
-    deck = full_deck()
-    hearts = []
-    spades = []
-    diamonds = []
-    clubs = []
-    for i in range(13):
-        heart_card = num_cards[i]+" of "+suits[0]
-        hearts.append(heart_card)
-        spade_card = num_cards[i]+" of "+suits[1]
-        spades.append(spade_card)
-        diamond_card = num_cards[i]+" of "+suits[2]
-        diamonds.append(diamond_card)
-        club_card = num_cards[i]+" of "+suits[3]
-        clubs.append(club_card)
+def subdeck(name):
+    full_deck()
+    sub_list = [k for k in deck if name in k]
+    print(sub_list)
 
 def card_points(card):
     if card[0] == "2":

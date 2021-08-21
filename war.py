@@ -31,6 +31,17 @@ while player1_score < 52 and player2_score < 52:
     playing_pile.append(player2)
 
     #check to see who wins the match
+    p1_points = card_functions.card_points(player1)
+    p2_points = card_functions.card_points(player2)
 
-
+    if p1_points > p2_points:
+        print("Player 1 has won this round.")
+        player1_deck.extend(playing_pile)
+        playing_pile = []
+    elif p1_points < p2_points:
+        print("Player 2 has won this round.")
+        player2_deck.extend(playing_pile)
+        playing_pile = []
+    else:
+        print("There's a tie! Time for war!")
     break
