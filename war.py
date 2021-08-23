@@ -1,8 +1,24 @@
 # This is the code to play the card game War
-
 import random
 import sys
 from card_pkg import card_functions
+
+print("""
+### Welcome to the Game of war 
+
+The goal is to be the first player to win all 52 cards
+
+## THE DEAL
+The deck is divided evenly, with each player receiving 26 cards, dealt one at a time, face down. Anyone may deal first. Each player places their stack of cards face down, in front of them.
+
+## THE PLAY
+Each player turns up a card at the same time and the player with the higher card takes both cards and puts them, face down, on the bottom of his stack.
+
+If the cards are the same rank, it is War. Each player turns up two cards face down and one card face up. The player with the higher cards takes both piles (eight cards). If the turned-up cards are again the same rank, each player places another 2 cards face down and turns another card face up. The player with the higher card takes all 14 cards, and so on. If a player does not have enough cards for war, that person loses war by default. For the purpose of clarity, ace is high for scoring purposes.
+
+## HOW TO KEEP SCORE
+The game ends when one player has won all the cards.
+""")
 
 # shuffle deck and separate into 2 piles for each player
 player1_deck = random.sample(card_functions.full_deck(), 26)
@@ -13,7 +29,8 @@ player1_score = 26
 player2_score = 26
 
 # withdraw 1 card from each pile until 1 person wins
-while True:
+choice = True
+while choice == True:
     if player1_score == 52:
         print("You've won! congrats!")
         sys.exit()
@@ -50,11 +67,13 @@ while True:
                 print("You have won this battle.")
                 player1_deck.extend(playing_pile)
                 playing_pile = []
+                card_functions.keep_playing()
                 break
             elif p1_points < p2_points:
                 print("The computer has won this battle.")
                 player2_deck.extend(playing_pile)
                 playing_pile = []
+                card_functions.keep_playing()
                 break
             else:
                 while p1_points == p2_points:

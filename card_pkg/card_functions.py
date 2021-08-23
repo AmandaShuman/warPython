@@ -1,4 +1,5 @@
 import random
+import sys
 
 num_cards = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
@@ -51,3 +52,15 @@ def card_points(card):
     else:
         points = 14
     return points
+
+def keep_playing():
+    while True:
+        choice = input("Do you want to keep playing Y/N:  ")
+        if choice.capitalize() == "Yes" or choice.lower() == "y":
+            choice = True
+            break
+        elif choice.capitalize() == "No" or choice.lower() == "n":
+            sys.exit()
+        else: 
+            print('You have entered an invalid option. Please type "y" or "n"')
+            continue
