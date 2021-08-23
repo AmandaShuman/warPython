@@ -27,13 +27,12 @@ while True:
 
         # print players' scores
         print("\nYour score: " + str(player1_score) +
-            "   computer score: " + str(player2_score))
+              "   computer score: " + str(player2_score))
 
         # pull a card from each player
         player1 = player1_deck[0]
         player2 = player2_deck[0]
-        print(f"You have played the {player1}.")
-        print(f"The computer has played the {player2}.")
+        print(f"Your card: {player1}    computer card: {player2}")
 
         # add cards into a new pile and append it to the end of the winner's deck
         player1_deck.remove(player1)
@@ -79,6 +78,6 @@ while True:
                             card for card in player2_deck if card not in playing_pile]
                         p1_points = card_functions.card_points(p1_war[-1])
                         p2_points = card_functions.card_points(p2_war[-1])
-                        print(f"War! Both players have laid down 2 facedown cards each. You have played {p1_war[-1]} and computer played {p2_war[-1]}.")
+                        print(
+                            f"War! Both players have laid down 2 facedown cards each. \nYour card: {p1_war[-1]}     computer card: {p2_war[-1]}.")
                         break
-
