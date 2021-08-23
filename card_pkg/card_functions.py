@@ -41,7 +41,7 @@ def card_points(card):
         points = 8
     elif card[0] == "9":
         points = 9
-    elif card[0] == "10":
+    elif card[0] == "1":
         points = 10
     elif card[0] == "J":
         points = 11
@@ -55,12 +55,13 @@ def card_points(card):
 
 def keep_playing():
     while True:
-        choice = input("Do you want to keep playing Y/N:  ")
-        if choice.capitalize() == "Yes" or choice.lower() == "y":
+        choice = input("Press Enter to keep playing or type 'N' to quit:  ")
+        if choice == "":
             choice = True
             break
         elif choice.capitalize() == "No" or choice.lower() == "n":
+            print("OK, goodbye!")
             sys.exit()
         else: 
-            print('You have entered an invalid option. Please type "y" or "n"')
+            print('You have entered an invalid option. Please hit Enter or type "n"')
             continue

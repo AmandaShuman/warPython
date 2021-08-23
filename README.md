@@ -1,4 +1,4 @@
-#### card games in Python
+### card games in Python
 This file contains card games that can be played with a computer. See below for details on different games currently available in the options.
 
 
