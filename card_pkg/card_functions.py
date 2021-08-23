@@ -2,7 +2,7 @@ import random
 
 num_cards = ["2", "3", "4", "5", "6", "7",
              "8", "9", "10", "Jack", "Queen", "King", "Ace"]
-suits = ["Hearts", "Spades", "Diamonds", "Clubs"]
+suits = ["Hearts", "Spades", "Diamonds", "Clubs"]  # change to emojis
 deck = []
 
 def full_deck():
@@ -16,7 +16,7 @@ def full_deck():
 
 def subdeck(name):
     full_deck()
-    sub_list = [k for k in deck if name in k]
+    sub_list = [card for card in deck if name in card]
     print(sub_list)
 
 def card_points(card):

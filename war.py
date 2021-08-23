@@ -1,3 +1,5 @@
+#This is the code to play the card game War
+
 import random
 from card_pkg import card_functions
 
@@ -11,17 +13,15 @@ player1_score = len(player1_deck)
 player2_score = len(player2_deck)
 
 #draw 1 card from each pile until 1 person wins
-card_num = 0
 while player1_score < 52 and player2_score < 52:
     #print players' scores
-    print("\nPlayer 1 score: " + str(player1_score) + "   Player 2 score: " + str(player2_score))
+    print("\nYour score: " + str(player1_score) + "   computer score: " + str(player2_score))
 
     #pull a card from each player
-    player1 = player1_deck[card_num]
-    player2 = player2_deck[card_num]
+    player1 = player1_deck[0]
+    player2 = player2_deck[0]
     print(f"Player 1 has played the {player1}.")
     print(f"player 2 has played the {player2}.")
-    card_num += 1
 
     #add cards into a new pile and append it to the end of the winner's deck
     player1_deck.remove(player1)
@@ -43,5 +43,30 @@ while player1_score < 52 and player2_score < 52:
         player2_deck.extend(playing_pile)
         playing_pile = []
     else:
-        print("There's a tie! Time for war!")
+        while p1_points == p2_points:
+            print("There's a tie! Time for war!")
+            if len(player1_deck) < 3:
+                print("You doesn't have enough cards and have lost by default. Computer wins!")
+                # -----------------
+                # enter code to reset game
+                # ------------------
+                break
+            elif len(player2_deck) < 3:
+                print("The computer doesn't have enough cards and has lost by default. You have won! Congrats!")
+                # -----------------
+                # enter code to reset game
+                # ------------------
+                break
+            else:
+                p1_war = player1_deck[0:3]
+                p2_war = player2_deck[0:3]
+                playing_pile.extend(p1_war)
+                playing_pile.extend(p2_war)
+                player1_deck = [card for card in player1_deck if card not in playing_pile]
+                player2_deck = [card for card in player2_deck if card not in playing_pile]
+                p1_points = card_functions.card_points(p1_war[-1])
+                p2_points = card_functions.card_points(p2_war[-1])
+                # -----------------
+                # figure out how to stop nesting!
+                # -----------------
     break

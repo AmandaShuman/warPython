@@ -16,4 +16,4 @@ The game ends when one player has won all the cards.
 # Skills learned
 1 - using nested for loops to combine 2 lists
 2 - using set() to find the compliment of a list when order doesn't matter
-3 - 
+3 - using extend() to add one list of elements into another list to have one list instead of 2
