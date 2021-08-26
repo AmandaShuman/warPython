@@ -18,6 +18,10 @@ If the cards are the same rank, it is War. Each player turns up two cards face d
 
 ## HOW TO KEEP SCORE
 The game ends when one player has won all the cards.
+
+-------------------------------------------------------
+                    Time to Play!!
+-------------------------------------------------------
 """)
 
 # shuffle deck and separate into 2 piles for each player
@@ -27,6 +31,7 @@ player2_deck = list(set(card_functions.full_deck()) - set(player1_deck))
 # initialize card count variables
 player1_score = 26
 player2_score = 26
+round = 1
 
 # withdraw 1 card from each pile until 1 person wins
 choice = True
@@ -44,7 +49,7 @@ while choice == True:
 
         # print players' scores
         print("\nYour score: " + str(player1_score) +
-              "   computer score: " + str(player2_score))
+              "   computer score: " + str(player2_score) + "   round: " + str(round))
 
         # pull a card from each player
         player1 = player1_deck[0]
@@ -68,12 +73,14 @@ while choice == True:
                 player1_deck.extend(playing_pile)
                 playing_pile = []
                 card_functions.keep_playing()
+                round += 1
                 break
             elif p1_points < p2_points:
                 print("The computer has won this battle.")
                 player2_deck.extend(playing_pile)
                 playing_pile = []
                 card_functions.keep_playing()
+                round += 1
                 break
             else:
                 while p1_points == p2_points:
@@ -98,5 +105,5 @@ while choice == True:
                         p1_points = card_functions.card_points(p1_war[-1])
                         p2_points = card_functions.card_points(p2_war[-1])
                         print(
-                            f"War! Both players have laid down 2 facedown cards each. \nYour card: {p1_war[-1]}     computer card: {p2_war[-1]}.")
+                            f"\n -------------------------------------------- \n                    War!                         \n -------------------------------------------- \nBoth players have laid down 2 facedown cards each.\nNow it's time to see who wins the war! \nYour card: {p1_war[-1]}     computer card: {p2_war[-1]}.")
                         break

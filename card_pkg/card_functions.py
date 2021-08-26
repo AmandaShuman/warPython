@@ -55,13 +55,13 @@ def card_points(card):
 
 def keep_playing():
     while True:
-        choice = input("Press Enter to keep playing or type 'N' to quit:  ")
+        choice = input("Press Enter to keep playing or type 'Q' to quit:  ")
         if choice == "":
             choice = True
             break
-        elif choice.capitalize() == "No" or choice.lower() == "n":
+        elif choice.capitalize() == "Quit" or choice.lower() == "q":
             print("OK, goodbye!")
             sys.exit()
         else: 
-            print('You have entered an invalid option. Please hit Enter or type "n"')
+            print('You have entered an invalid option. Please hit Enter or type "q"')
             continue
