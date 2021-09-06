@@ -11,15 +11,27 @@ suits = [heart, spade, diamond, club]
 deck = []
 
 def full_deck():
+    """
+    Mixing two lists into one list by adding each element to the other
+    Returns:
+        A full deck where each numbered card gets a suit - repeated for each suit.
+    """
     global deck
-    for i in range(13):
-        for j in range(4):
+    for i in range(len(num_cards)):
+        for j in range(len(suits)):
             card = num_cards[i] + suits[j]
             deck.append(card)
             random.shuffle(deck)
     return (deck)
 
 def subdeck(name):
+    """
+    Diving up a list into sublists based on user request. 
+    Arguments:
+        name: Name of subdeck requested (i.e. 4's or "Hearts")
+    Returns:
+        Returns a sublist containing only requested cards.
+    """
     full_deck()
     sub_list = [card for card in deck if name in card]
     print(sub_list)
@@ -54,6 +66,13 @@ def card_points(card):
     return points
 
 def keep_playing():
+    """
+    Gives player option to continue playing or quit playing by typing "q" at any point.
+    Returns:
+        Allows player to continue with game OR to quit game.
+    Raises:
+        else: returns an exemption
+    """
     while True:
         choice = input("Press Enter to keep playing or type 'Q' to quit:  ")
         if choice == "":
