@@ -1,9 +1,9 @@
 ### card games in Python
 This file contains card games that can be played with a computer. See below for details on different games currently available in the options.
 
-
 ## War
 This is the first card game added. As more games are added, there will be options added to choose which game to play!
+
 
 # Skills learned - WAR card game
 1 - using nested for loops to combine 2 lists
