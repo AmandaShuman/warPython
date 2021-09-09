@@ -7,8 +7,9 @@ spade = chr(9824)
 club = chr(9827)
 heart = chr(9829)
 diamond = chr(9830)
-suits = [heart, spade, diamond, club] 
+suits = [heart, spade, diamond, club]
 deck = []
+
 
 def full_deck():
     """
@@ -24,6 +25,7 @@ def full_deck():
             random.shuffle(deck)
     return (deck)
 
+
 def subdeck(name):
     """
     Diving up a list into sublists based on user request. 
@@ -35,6 +37,33 @@ def subdeck(name):
     full_deck()
     sub_list = [card for card in deck if name in card]
     print(sub_list)
+
+
+def starting_hand(deck, num_cards):
+    """
+    Make subdeck from given deck and removes subdeck cards from deck
+    Arguments:
+        deck - this is the beginning deck to pull cards from
+        num_cards - the size of the subdeck you want
+    Returns:
+        player_hand - list containing the cards for the player
+        deck - deck without player_hand cards in it (to be used for multiple players and/or computer for subsequent uses)
+    """
+    player_hand = []
+    max_index = len(deck)
+    for i in range(num_cards):
+        card_pick = random.randint(0, max_index)
+        player_hand.append(deck[card_pick])
+        deck.pop(card_pick)
+        max_index -= 1
+    return player_hand, deck
+
+
+""" player_hand, remaining_deck = starting_hand(full_deck(), 7)
+computer_hand, remaining_deck = starting_hand(remaining_deck, 7)
+print("Player hand:", player_hand)
+print("Computer hand", computer_hand)
+print(remaining_deck) """
 
 def card_points(card):
     if card[0] == "2":
@@ -65,6 +94,7 @@ def card_points(card):
         points = 14
     return points
 
+
 def keep_playing():
     """
     Gives player option to continue playing or quit playing by typing "q" at any point.
@@ -81,6 +111,6 @@ def keep_playing():
         elif choice.capitalize() == "Quit" or choice.lower() == "q":
             print("OK, goodbye!")
             sys.exit()
-        else: 
+        else:
             print('You have entered an invalid option. Please hit Enter or type "q"')
             continue

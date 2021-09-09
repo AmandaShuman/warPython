@@ -1,22 +1,58 @@
 # This is the code to play the card game go Fish
-"""
-# Go fish rules
-Use your class-based deck of cards to implement a game of Go Fish that you can play against the computer. A basic Go Fish game has the following rules:
+import time
+from card_pkg import card_functions
 
-Each player is dealt a hand of 7 cards.
+print("             Go fish")
+print("\nTHE RULES")
+time.sleep(1)
+
+print("""Each player is dealt a hand of 7 cards.
+
 If either player has a pair, they pull the pair from their hands and place them on the table.
-One player goes first. The player picks a card in their hand that they’re trying to match, and they say, “Do you have a Jack?”
-If the other player has a Jack, the asking player gets that card and places both Jacks on the table. The asking player goes again.
-If the other player doesn’t have a Jack, they say “Go Fish!” The asking player draws a card from the deck and puts it in their hand.
-If the drawn card is the card they asked for, they place the pair on the table and go again.
-If the drawn card matches any other card in their hand, they place the pair on the table but don’t go again.
+""")
+time.sleep(3)
+
+print("""You get to go first. Pick a card in your hand that you are trying to match, and say, “Do you have a Jack?”
+
+If the computer has a Jack, the you get that card and place both Jacks on the table. Then you goe again. """)
+time.sleep(3)
+
+print("""
+If the computer doesn’t have a Jack, they say “Go Fish!” and you draw a card from the deck and put it in your hand.""")
+time.sleep(2)
+
+print("""
+If the drawn card is the card you asked for, you place the pair on the table and go again.
+If the drawn card matches any other card in your hand, you place the pair on the table but don’t go again. 
+Then the computer will have its turn to do the same.""")
+time.sleep(2)
+
+print("""
 The game is over whenever one player runs out of cards.
-The player with the most pairs at the end of the game wins, regardless of who ran out of cards first.
+The player with the most pairs at the end of the game wins, regardless of who ran out of cards first. """)
+time.sleep(3)
+
+print("""
+-------------------------------------------------------
+                    Time to Play!!
+-------------------------------------------------------""")
+
+
+
+
+
+
+
+
+
+
+
+# user_hand = random.sample(card_functions.full_deck(), 7)
+
+"""
 Report the number of cards in the player’s hand, and the computer’s hand. Report the number of turns that have been played. Keep track of the pairs that each player has won, and display the number of pairs won by each player.
 
 If the computer player in your Go Fish game makes moves by randomly choosing a card in its hand to ask you about, you have a very weak Go Fish player. Consider a strategy for playing Go Fish well, and implement that strategy in code. For example, a good Go Fish player remembers when the other player has asked about a card. Your computer player should do this as well!
-
-Extension: Write a version of this game where the computer plays itself.
 """
 
-from card_pkg import card_functions
+

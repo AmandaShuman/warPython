@@ -2,7 +2,7 @@
 import random
 import sys
 import time
-from card_pkg import card_functions
+from card_pkg.card_functions import full_deck, card_points, keep_playing
 
 print("                       Welcome to the Game of war") 
 time.sleep(1)
@@ -35,8 +35,8 @@ The game ends when one player has won all the cards.
 
 time.sleep(2)
 # shuffle deck and separate into 2 piles for each player
-player1_deck = random.sample(card_functions.full_deck(), 26)
-player2_deck = list(set(card_functions.full_deck()) - set(player1_deck))
+player1_deck = random.sample(full_deck(), 26)
+player2_deck = list(set(full_deck()) - set(player1_deck))
 
 # initialize card count variables
 player1_score = 26
@@ -74,22 +74,22 @@ while choice == True:
         playing_pile.append(player2)
 
         # check to see who wins the match
-        p1_points = card_functions.card_points(player1)
-        p2_points = card_functions.card_points(player2)
+        p1_points = card_points(player1)
+        p2_points = card_points(player2)
 
         while True:
             if p1_points > p2_points:
                 print("You have won this battle.")
                 player1_deck.extend(playing_pile)
                 playing_pile = []
-                card_functions.keep_playing()
+                keep_playing()
                 round += 1
                 break
             elif p1_points < p2_points:
                 print("The computer has won this battle.")
                 player2_deck.extend(playing_pile)
                 playing_pile = []
-                card_functions.keep_playing()
+                keep_playing()
                 round += 1
                 break
             else:
@@ -112,8 +112,8 @@ while choice == True:
                             card for card in player1_deck if card not in playing_pile]
                         player2_deck = [
                             card for card in player2_deck if card not in playing_pile]
-                        p1_points = card_functions.card_points(p1_war[-1])
-                        p2_points = card_functions.card_points(p2_war[-1])
+                        p1_points = card_points(p1_war[-1])
+                        p2_points = card_points(p2_war[-1])
                         print(
                             f"\n -------------------------------------------- \n                    War!                         \n -------------------------------------------- \nBoth players have laid down 2 facedown cards each.\nNow it's time to see who wins the war! \nYour card: {p1_war[-1]}     computer card: {p2_war[-1]}.")
                         break
