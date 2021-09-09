@@ -50,7 +50,7 @@ def starting_hand(deck, num_cards):
         deck - deck without player_hand cards in it (to be used for multiple players and/or computer for subsequent uses)
     """
     player_hand = []
-    max_index = len(deck)
+    max_index = len(deck) - 1
     for i in range(num_cards):
         card_pick = random.randint(0, max_index)
         player_hand.append(deck[card_pick])
@@ -59,11 +59,16 @@ def starting_hand(deck, num_cards):
     return player_hand, deck
 
 
-""" player_hand, remaining_deck = starting_hand(full_deck(), 7)
-computer_hand, remaining_deck = starting_hand(remaining_deck, 7)
-print("Player hand:", player_hand)
-print("Computer hand", computer_hand)
-print(remaining_deck) """
+# def values_only(deck):
+#     """
+#     We only care about the value of the card in the deck, not the suit so we are taking out the values to compare.
+#     Arguments:
+#         deck - the deck you want to look at values
+#     Returns:
+#         Returns a list with only the first element of each string from the original deck
+#     """
+#     return [card[0] for card in deck]
+
 
 def card_points(card):
     if card[0] == "2":
