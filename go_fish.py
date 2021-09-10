@@ -54,15 +54,15 @@ player_score = 0
 computer_score = 0
 
 # check for matches in hands of player and computer
-""" print("Checking for matches now...")
-check_for_matches("You", player_hand, player_score)
-check_for_matches("The computer", computer_hand, computer_score) """
+print("Checking for matches now...")
+player_hand, player_score = check_for_matches("You", player_hand, player_score)
+computer_hand, computer_score = check_for_matches("The computer", computer_hand, computer_score)
 points_display(player_score, computer_score, player_hand, computer_hand)
 
 
 
 """
-Report the number of cards in the player’s hand, and the computer’s hand. Report the number of turns that have been played. Keep track of the pairs that each player has won, and display the number of pairs won by each player.
+Report the number of turns that have been played. 
 
 If the computer player in your Go Fish game makes moves by randomly choosing a card in its hand to ask you about, you have a very weak Go Fish player. Consider a strategy for playing Go Fish well, and implement that strategy in code. For example, a good Go Fish player remembers when the other player has asked about a card. Your computer player should do this as well!
 """

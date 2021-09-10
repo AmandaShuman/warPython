@@ -1,3 +1,4 @@
+from hashlib import new
 import random
 import sys
 
@@ -72,29 +73,23 @@ def check_for_matches(player, deck, player_score):
         player_score - player's score after adding matches to it
     """
     deck.sort()
-    deck_length = len(deck) - 2
-    matched_cards = []
-    new_deck = deck[:]
-    for i in range(deck_length):  # need -2 to account for i+1
-        if deck[i][0] == deck[i+1][0]:
+    deck_to_check = [card[0] for card in deck]
+    points = player_score
+    for card in deck_to_check:  # need -2 to account for i+1
+        if deck_to_check.count(card) > 1:
             print(f"{player} got a match!")
-            matched_cards.extend((deck[i], deck[i+1]))
-            print(matched_cards)
-            new_deck.pop(i)
-            new_deck.pop(i)
+            deck_to_check.remove(card)
+            deck_to_check.remove(card)
+            points += 2
+    new_deck = [card for card in deck if card[0] in deck_to_check]
+    return new_deck, points
 
-              
-    player_score += len(matched_cards)
-    
-    print(player_score)
-    return new_deck, player_score
-
-
-trial_deck = ['5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
-trial_score = 0
-trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
-print(trial_deck)
-print(trial_score)
+def check_for_matches_check():
+    trial_deck = ['5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
+    trial_score = 0
+    trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
+    print(trial_deck)
+    print(trial_score)
 
 def values_only(deck):
     """
