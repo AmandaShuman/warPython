@@ -1,7 +1,11 @@
 from hashlib import new
 import random
+import time
 import sys
 
+#====================================================================================================
+#                                     GLOBAL VARIABLES
+#====================================================================================================
 num_cards = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
 spade = chr(9824)
@@ -12,6 +16,9 @@ suits = [heart, spade, diamond, club]
 deck = []
 
 
+# ====================================================================================================
+#                       FUNCTIONS TO BE USED FOR SEVERAL CARD GAMES
+# ====================================================================================================
 def full_deck():
     """
     Mixing two lists into one list by adding each element to the other
@@ -27,17 +34,25 @@ def full_deck():
     return (deck)
 
 
-def subdeck(name):
+def keep_playing():
     """
-    Diving up a list into sublists based on user request. 
-    Arguments:
-        name: Name of subdeck requested (i.e. 4's or "Hearts")
+    Gives player option to continue playing or quit playing by typing "q" at any point.
     Returns:
-        Returns a sublist containing only requested cards.
+        Allows player to continue with game OR to quit game.
+    Raises:
+        else: returns an exemption
     """
-    full_deck()
-    sub_list = [card for card in deck if name in card]
-    print(sub_list)
+    while True:
+        choice = input("Press Enter to keep playing or type 'Q' to quit:  ")
+        if choice == "":
+            choice = True
+            break
+        elif choice.capitalize() == "Quit" or choice.lower() == "q":
+            print("OK, goodbye!")
+            sys.exit()
+        else:
+            print('You have entered an invalid option. Please hit Enter or type "q"')
+            continue
 
 
 def starting_hand(deck, num_cards):
@@ -52,7 +67,7 @@ def starting_hand(deck, num_cards):
     """
     player_hand = []
     max_index = len(deck) - 1
-    for _ in range(num_cards):  
+    for _ in range(num_cards):
         # use _ instead of i when you don't need to use the variable
         card_pick = random.randint(0, max_index)
         player_hand.append(deck[card_pick])
@@ -61,6 +76,9 @@ def starting_hand(deck, num_cards):
     return player_hand, deck
 
 
+#====================================================================================================
+#                       FUNCTIONS FOR GO FISH
+#====================================================================================================
 def check_for_matches(player, deck, player_score):
     """
     Checks to see if there is a matching pair in the player's deck by sorting the deck and then looking at the first value of each string to compare equality.
@@ -75,7 +93,7 @@ def check_for_matches(player, deck, player_score):
     deck.sort()
     deck_to_check = [card[0] for card in deck]
     points = player_score
-    for card in deck_to_check:  # need -2 to account for i+1
+    for card in deck_to_check:
         if deck_to_check.count(card) > 1:
             print(f"{player} got a match!")
             deck_to_check.remove(card)
@@ -84,12 +102,6 @@ def check_for_matches(player, deck, player_score):
     new_deck = [card for card in deck if card[0] in deck_to_check]
     return new_deck, points
 
-def check_for_matches_check():
-    trial_deck = ['5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
-    trial_score = 0
-    trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
-    print(trial_deck)
-    print(trial_score)
 
 def values_only(deck):
     """
@@ -100,6 +112,58 @@ def values_only(deck):
         Returns a list with only the first element of each string from the original deck
     """
     return [card[0] for card in deck]
+
+
+def go_fish_ask(player_values, player_name):
+    """
+    Allows for a player to ask from a card from their deck
+    Args:
+        player_name - player's name for personalization
+        player_values - the face value of the card w/o suit
+    Returns:
+        player_choice - the face value of the card the player chose
+    """
+    while True:
+        print(f"Here are the cards you can ask for: {player_values}")
+        player_choice = input("Which option do you want to ask the computer?  ")
+        player_choice = player_choice.capitalize()
+        if player_choice in player_values:
+            print(f'{player_name} is asking, "Do you have any {player_choice}s?')
+            time.sleep(2)
+            break
+        else:
+            print(f"You have to pick a card from your list!")
+    return player_choice
+
+
+def go_fish_check(player_choice, player_points, player_deck, opponent_name, opponent_deck, remaining_deck):
+    player_values = values_only(player_deck)
+    opponent_values = values_only(opponent_deck)
+    points = player_points
+    if player_choice in opponent_values:
+        print(f"{opponent_name} has a {player_choice}!")
+        points += 2
+        player_values.remove(player_choice)
+        opponent_values.remove(player_choice)
+        new_player_hand = [card for card in player_deck if card[0] in player_values]
+        new_opponent_hand = [card for card in opponent_deck if card[0] in opponent_values]
+        new_remaining_deck = remaining_deck[:]
+    else:
+        print(f"{opponent_name} doesn't have any {player_choice}'s. Go Fish!")
+        new_opponent_hand = opponent_deck[:]
+        card_pick = random.randint(0, (len(remaining_deck)-1))
+        new_player_hand = player_deck.append(deck[card_pick])
+        new_remaining_deck = remaining_deck[:]
+        new_remaining_deck.pop(card_pick)
+        points += 0
+
+    return new_player_hand, new_opponent_hand, new_remaining_deck, points
+
+
+
+# ====================================================================================================
+#                       FUNCTIONS JUST FOR WAR (BUT USEFUL FOR COUNTING CARD VALUES)
+# ====================================================================================================
 
 
 def card_points(card):
@@ -139,22 +203,28 @@ def card_points(card):
     return points
 
 
-def keep_playing():
+# ====================================================================================================
+#                       FUNCTIONS NOT YET USED, BUT USEFUL FOR FUTURE
+# ====================================================================================================
+def subdeck(name):
     """
-    Gives player option to continue playing or quit playing by typing "q" at any point.
+    Diving up a list into sublists based on user request. 
+    Arguments:
+        name: Name of subdeck requested (i.e. 4's or "Hearts")
     Returns:
-        Allows player to continue with game OR to quit game.
-    Raises:
-        else: returns an exemption
+        Returns a sublist containing only requested cards.
     """
-    while True:
-        choice = input("Press Enter to keep playing or type 'Q' to quit:  ")
-        if choice == "":
-            choice = True
-            break
-        elif choice.capitalize() == "Quit" or choice.lower() == "q":
-            print("OK, goodbye!")
-            sys.exit()
-        else:
-            print('You have entered an invalid option. Please hit Enter or type "q"')
-            continue
+    full_deck()
+    sub_list = [card for card in deck if name in card]
+    print(sub_list)
+
+
+# ====================================================================================================
+#                       DEV TESTING FUNCTIONS
+# ====================================================================================================
+def check_for_matches_check():
+    trial_deck = ['5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
+    trial_score = 0
+    trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
+    print(trial_deck)
+    print(trial_score)
