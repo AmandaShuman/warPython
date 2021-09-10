@@ -16,3 +16,4 @@ This is the first card game added. As more games are added, there will be option
 1 - how to return multiple lists from a function and call them later
 2 - using the time library to pause when information shows on screen
 3 - how to compare the first character of strings in a list using double index notation
+4 - how to use a for loop without needing to use the iterating variable

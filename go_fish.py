@@ -1,6 +1,14 @@
 # This is the code to play the card game go Fish
 import time
-from card_pkg.card_functions import full_deck, starting_hand
+from card_pkg.card_functions import full_deck, starting_hand, check_for_matches
+
+def points_display(player_score, computer_score, player_hand, computer_hand):
+    print(f"""
+    Scores:         You: {player_score}      || Computer: {computer_score}
+    ---------------------------------------------
+    Card Count:     You: {len(player_hand)}      || Computer: {len(computer_hand)}
+    ---------------------------------------------
+    """)
 
 # print("             Go fish")
 # print("\nTHE RULES")
@@ -37,25 +45,19 @@ from card_pkg.card_functions import full_deck, starting_hand
 #                     Time to Play!!
 # -------------------------------------------------------""")
 
+
 player_hand, remaining_deck = starting_hand(full_deck(), 7)
 computer_hand, remaining_deck = starting_hand(remaining_deck, 7)
-print("Here is your hand:", player_hand)
 player_hand.sort()
-print("Here is your sorted hand", player_hand)
+print("Here is your hand:", player_hand)
+player_score = 0
+computer_score = 0
 
-
-"""
-def check_for_matches(deck, score):
-    deck.sort()
-    for i in len(deck) - 2:  # need -2 to account for i+1
-        if deck[i][0] == deck[i+1][0]:
-            print("Got a match!")
-            deck.pop(i)
-            deck.pop(i+1)
-            score += 2
-    return deck, score 
-"""
-
+# check for matches in hands of player and computer
+""" print("Checking for matches now...")
+check_for_matches("You", player_hand, player_score)
+check_for_matches("The computer", computer_hand, computer_score) """
+points_display(player_score, computer_score, player_hand, computer_hand)
 
 
 

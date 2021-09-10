@@ -15,7 +15,7 @@ def full_deck():
     """
     Mixing two lists into one list by adding each element to the other
     Returns:
-        A full deck where each numbered card gets a suit - repeated for each suit.
+        A full shuffled deck where each numbered card gets a suit - repeated for each suit.
     """
     global deck
     for i in range(len(num_cards)):
@@ -51,7 +51,8 @@ def starting_hand(deck, num_cards):
     """
     player_hand = []
     max_index = len(deck) - 1
-    for i in range(num_cards):
+    for _ in range(num_cards):  
+        # use _ instead of i when you don't need to use the variable
         card_pick = random.randint(0, max_index)
         player_hand.append(deck[card_pick])
         deck.pop(card_pick)
@@ -59,18 +60,61 @@ def starting_hand(deck, num_cards):
     return player_hand, deck
 
 
-# def values_only(deck):
-#     """
-#     We only care about the value of the card in the deck, not the suit so we are taking out the values to compare.
-#     Arguments:
-#         deck - the deck you want to look at values
-#     Returns:
-#         Returns a list with only the first element of each string from the original deck
-#     """
-#     return [card[0] for card in deck]
+def check_for_matches(player, deck, player_score):
+    """
+    Checks to see if there is a matching pair in the player's deck by sorting the deck and then looking at the first value of each string to compare equality.
+    Args:
+        player - the player/computer checking for matches
+        deck - the player/computer's hand
+        player_score - the current running score for the player
+    Returns:
+        deck - the player's hand after matches have been checked
+        player_score - player's score after adding matches to it
+    """
+    deck.sort()
+    deck_length = len(deck) - 2
+    matched_cards = []
+    new_deck = deck[:]
+    for i in range(deck_length):  # need -2 to account for i+1
+        if deck[i][0] == deck[i+1][0]:
+            print(f"{player} got a match!")
+            matched_cards.extend((deck[i], deck[i+1]))
+            print(matched_cards)
+            new_deck.pop(i)
+            new_deck.pop(i)
+
+              
+    player_score += len(matched_cards)
+    
+    print(player_score)
+    return new_deck, player_score
+
+
+trial_deck = ['5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
+trial_score = 0
+trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
+print(trial_deck)
+print(trial_score)
+
+def values_only(deck):
+    """
+    We only care about the value of the card in the deck, not the suit so we are taking out the values to compare.
+    Arguments:
+        deck - the deck you want to look at values
+    Returns:
+        Returns a list with only the first element of each string from the original deck
+    """
+    return [card[0] for card in deck]
 
 
 def card_points(card):
+    """
+    Evaluates card points based on value of card incrementing up from 10, Jack, Queen, King, to Ace.
+    Args:
+        card - this is the card to check the value for
+    Returns:
+        points - the point value for the card 
+    """
     if card[0] == "2":
         points = 2
     elif card[0] == "3":
