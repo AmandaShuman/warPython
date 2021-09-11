@@ -77,6 +77,8 @@ while True:
                 computer_hand = [card for card in computer_hand if card[0] in computer_values]
                 points_display(player_score, computer_score, player_hand, computer_hand)
                 time.sleep(2)
+                if len(player_hand) == 0 or len(computer_hand) == 0:
+                    break
             else:
                 print(f"The computer doesn't have any {player_choice}s. Go Fish!")
                 player_hand.append(remaining_deck[card_pick])
@@ -86,12 +88,15 @@ while True:
                 player_hand, player_score = check_for_matches(player_name, player_hand, player_score)
                 points_display(player_score, computer_score, player_hand, computer_hand)
                 time.sleep(2)
+                if len(player_hand) == 0 or len(computer_hand) == 0:
+                    break
                 # =======================================
                 #            Computer's turn
                 # =======================================
                 while True:
                     computer_choice_index = random.randint(0, (len(computer_values)-1))
                     computer_choice = computer_values[computer_choice_index]
+                    card_pick = random.randint(0, (len(remaining_deck)-1))
                     print(f"The computer asks, do you have any {computer_choice}s?")
                     if computer_choice in player_values:
                         print(f"You have a {computer_choice} so you give it to the computer. There's no cheating in this game!😁")
@@ -104,6 +109,8 @@ while True:
                             card for card in computer_hand if card[0] in computer_values]
                         points_display(player_score, computer_score, player_hand, computer_hand)
                         time.sleep(1)
+                        if len(player_hand) == 0 or len(computer_hand) == 0:
+                            break
                     else:
                         print(f"{player_name} doesn't have any {computer_choice}s. Go Fish!!")
                         computer_hand.append(remaining_deck[card_pick])
