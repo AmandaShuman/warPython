@@ -76,6 +76,26 @@ def starting_hand(deck, num_cards):
     return player_hand, deck
 
 
+def who_wins(player_score, computer_score):
+    """
+    Returns a message to the user about who won the game
+    Args:
+        player_score = the player's final score
+        computer_score = the computer's final score
+    """
+    print("""
+    ++++++++++++++++++++++++++++++++++++
+            The game is over!
+    ++++++++++++++++++++++++++++++++++++
+    """)
+    if player_score > computer_score:
+        print("You've won! Congrats!!")
+    elif computer_score > player_score:
+        print("The computer has won this round. Try again.")
+    else:
+        print("It's a tie!")
+
+
 #===================================================================================================
 #                       FUNCTIONS FOR GO FISH
 #===================================================================================================
@@ -160,7 +180,6 @@ def go_fish_check(player_choice, player_points, player_deck, opponent_name, oppo
     return new_player_hand, new_opponent_hand, new_remaining_deck, points
 
 
-
 # ====================================================================================================
 #                       FUNCTIONS JUST FOR WAR (BUT USEFUL FOR COUNTING CARD VALUES)
 # ====================================================================================================
@@ -235,4 +254,6 @@ def check_values_only():
     player_values = values_only(trial_deck)
     print(player_values)
 
-check_values_only()
+
+if __name__ == '__main__':
+    check_values_only()

@@ -18,3 +18,5 @@ This is the first card game added. As more games are added, there will be option
 3 - how to compare the first character of strings in a list using double index notation
 4 - how to use a for loop without needing to use the iterating variable
 5 - how to copy a list 
+6 - how to include if/else statements in list comprehensions
+7 - list comprehensions! I understand them enough to write them on my own now.

@@ -1,7 +1,7 @@
 # This is the code to play the card game go Fish
 import time
 import random
-from card_pkg.card_functions import full_deck, go_fish_ask, starting_hand, check_for_matches, values_only, go_fish_check, keep_playing
+from card_pkg.card_functions import full_deck, go_fish_ask, starting_hand, check_for_matches, values_only, go_fish_check, keep_playing, who_wins
 from card_pkg.game_rules import go_fish_rules
 
 
@@ -83,6 +83,7 @@ while True:
                     remaining_deck.pop(0)
                     player_score += 2
                     player_values.remove(player_choice)
+                    player_hand = [card for card in player_hand if card[0] in player_values]
                     if len(player_hand) == 0 or len(computer_hand) == 0:
                         break
                 else:
@@ -120,12 +121,22 @@ while True:
                     break
             else:
                 print(f"{player_name} doesn't have any {computer_choice}s. Go Fish!!")
-                computer_hand.append(remaining_deck[0])
-                remaining_deck.pop(0)
-                computer_hand, computer_score = check_for_matches("The computer", computer_hand, computer_score)
-                points_display(player_score, computer_score, player_hand, computer_hand)
-                time.sleep(1)
-                break
+                picked_up_card_comp = remaining_deck[0][0]
+                if picked_up_card == computer_choice:
+                    print(f"The computer picked up the card they asked for. Go again!")
+                    remaining_deck.pop(0)
+                    computer_score += 2
+                    computer_values.remove(computer_choice)
+                    computer_hand = [card for card in computer_hand if card[0] in computer_values]
+                    if len(player_hand) == 0 or len(computer_hand) == 0:
+                        break
+                else:
+                    computer_hand.append(remaining_deck[0])
+                    remaining_deck.pop(0)
+                    computer_hand, computer_score = check_for_matches("The computer", computer_hand, computer_score)
+                    points_display(player_score, computer_score, player_hand, computer_hand)
+                    time.sleep(1)
+                    break
 
 
                 
