@@ -36,15 +36,8 @@ points_display(player_score, computer_score, player_hand, computer_hand)
 print("Now that the setup is done... it's time to play GO FISH!! \n")
 time.sleep(2)
 """ TO DO
-Make a while loop where the player asks for a card
-Give player option what they want to ask for - another loop to iterate through the answers?
 Check computer values to see if match
-    if match - pop from player and pop from computer
-             - add 2 points to player's score
-             - allow player to go again (repeat loop?)
-    if no match - pop random card from the deck into player's deck
-                - sort player's deck
-                - return False to break out of loop
+    if no match - give free turn if card picked up is the same one as was asked for
 """
 
 while True:
@@ -67,7 +60,7 @@ while True:
             player_values = values_only(player_hand)
             computer_values = values_only(computer_hand)
             player_choice = go_fish_ask(player_values, player_name)
-            card_pick = random.randint(0, (len(remaining_deck)-1))
+            #  card_pick = random.randint(0, (len(remaining_deck)-1))
             if player_choice in computer_values:
                 print(f"The computer has a {player_choice}!")
                 player_score += 2
@@ -81,44 +74,58 @@ while True:
                     break
             else:
                 print(f"The computer doesn't have any {player_choice}s. Go Fish!")
-                player_hand.append(remaining_deck[card_pick])
-                remaining_deck.pop(card_pick)
-                # fiture out how to add in code for if player picks up same card asked for and gets to go again
+                picked_up_card = remaining_deck[0][0]
+                print("You picked up card:", remaining_deck[0])
 
-                player_hand, player_score = check_for_matches(player_name, player_hand, player_score)
+                # if player picks up same card asked for and gets to go again
+                if picked_up_card == player_choice:
+                    print(f"{player_name} picked up the card they asked for. Go again!")
+                    remaining_deck.pop(0)
+                    player_score += 2
+                    player_values.remove(player_choice)
+                    if len(player_hand) == 0 or len(computer_hand) == 0:
+                        break
+                else:
+                    player_hand.append(remaining_deck[0])
+                    remaining_deck.pop(0)
+                    player_hand, player_score = check_for_matches(player_name, player_hand, player_score)
+                    points_display(player_score, computer_score, player_hand, computer_hand)
+                    time.sleep(2)
+                    break
+
+        # =======================================
+        #            Computer's turn
+        # =======================================
+        if len(player_hand) == 0 or len(computer_hand) == 0:
+            break
+        while True:
+            player_values = values_only(player_hand)
+            computer_values = values_only(computer_hand)
+            computer_choice_index = random.randint(0, (len(computer_values)-1))
+            computer_choice = computer_values[computer_choice_index]
+            #  card_pick = random.randint(0, (len(remaining_deck)-1))
+            print(f"The computer asks, do you have any {computer_choice}s?")
+            if computer_choice in player_values:
+                print(f"You have a {computer_choice} so you give it to the computer. There's no cheating in this game!😁")
+                computer_score += 2
+                player_values.remove(computer_choice)
+                computer_values.remove(computer_choice)
+                player_hand = [
+                    card for card in player_hand if card[0] in player_values]
+                computer_hand = [
+                    card for card in computer_hand if card[0] in computer_values]
                 points_display(player_score, computer_score, player_hand, computer_hand)
-                time.sleep(2)
+                time.sleep(1)
                 if len(player_hand) == 0 or len(computer_hand) == 0:
                     break
-                # =======================================
-                #            Computer's turn
-                # =======================================
-                while True:
-                    computer_choice_index = random.randint(0, (len(computer_values)-1))
-                    computer_choice = computer_values[computer_choice_index]
-                    card_pick = random.randint(0, (len(remaining_deck)-1))
-                    print(f"The computer asks, do you have any {computer_choice}s?")
-                    if computer_choice in player_values:
-                        print(f"You have a {computer_choice} so you give it to the computer. There's no cheating in this game!😁")
-                        computer_score += 2
-                        player_values.remove(computer_choice)
-                        computer_values.remove(computer_choice)
-                        player_hand = [
-                            card for card in player_hand if card[0] in player_values]
-                        computer_hand = [
-                            card for card in computer_hand if card[0] in computer_values]
-                        points_display(player_score, computer_score, player_hand, computer_hand)
-                        time.sleep(1)
-                        if len(player_hand) == 0 or len(computer_hand) == 0:
-                            break
-                    else:
-                        print(f"{player_name} doesn't have any {computer_choice}s. Go Fish!!")
-                        computer_hand.append(remaining_deck[card_pick])
-                        remaining_deck.pop(card_pick)
-                        computer_hand, computer_score = check_for_matches("The computer", computer_hand, computer_score)
-                        points_display(player_score, computer_score, player_hand, computer_hand)
-                        time.sleep(1)
-                        break
+            else:
+                print(f"{player_name} doesn't have any {computer_choice}s. Go Fish!!")
+                computer_hand.append(remaining_deck[0])
+                remaining_deck.pop(0)
+                computer_hand, computer_score = check_for_matches("The computer", computer_hand, computer_score)
+                points_display(player_score, computer_score, player_hand, computer_hand)
+                time.sleep(1)
+                break
 
 
                 

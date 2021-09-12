@@ -16,9 +16,9 @@ suits = [heart, spade, diamond, club]
 deck = []
 
 
-# ====================================================================================================
+# ===================================================================================================
 #                       FUNCTIONS TO BE USED FOR SEVERAL CARD GAMES
-# ====================================================================================================
+# ===================================================================================================
 def full_deck():
     """
     Mixing two lists into one list by adding each element to the other
@@ -76,9 +76,9 @@ def starting_hand(deck, num_cards):
     return player_hand, deck
 
 
-#====================================================================================================
+#===================================================================================================
 #                       FUNCTIONS FOR GO FISH
-#====================================================================================================
+#===================================================================================================
 def check_for_matches(player, deck, player_score):
     """
     Checks to see if there is a matching pair in the player's deck by sorting the deck and then looking at the first value of each string to compare equality.
@@ -103,7 +103,7 @@ def check_for_matches(player, deck, player_score):
     return new_deck, points
 
 
-def values_only(deck):
+def values_only(deck):  #fix this to account for 10 display
     """
     We only care about the value of the card in the deck, not the suit so we are taking out the values to compare.
     Arguments:

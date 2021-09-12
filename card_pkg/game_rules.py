@@ -48,7 +48,7 @@ def go_fish_rules():
     """)
     time.sleep(3)
 
-    print("""You get to go first. Pick a card in your hand that you are trying to match, and say, “Do you have a Jack?”
+    print("""You get to go first. Pick a card in your hand that you are trying to match, and say, “Do you have any Js?”
 
     If the computer has a Jack, the you get that card and place both Jacks on the table. Then you go again. """)
     time.sleep(3)
