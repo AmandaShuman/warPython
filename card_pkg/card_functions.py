@@ -111,7 +111,7 @@ def values_only(deck):  #fix this to account for 10 display
     Returns:
         Returns a list with only the first element of each string from the original deck
     """
-    return [card[0] for card in deck]
+    return [card[:2] if card[0] == '1' else card[0] for card in deck]
 
 
 def go_fish_ask(player_values, player_name):
@@ -228,3 +228,11 @@ def check_for_matches_check():
     trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
     print(trial_deck)
     print(trial_score)
+
+
+def check_values_only():
+    trial_deck = ['5♥', '6♥', '7♠', '7♦', '10♥', 'J♦', 'K♥', 'K♦']
+    player_values = values_only(trial_deck)
+    print(player_values)
+
+check_values_only()
