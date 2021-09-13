@@ -94,7 +94,7 @@ def who_wins(player_score, computer_score, player_hand, computer_hand):
     if player_score > computer_score:
         print("You've won! Congrats!!")
     elif computer_score > player_score:
-        print("The computer has won this round. Try again.")
+        print("Unfortunately, you've lost. Try again.")
     else:
         print("It's a tie!")
     sys.exit()
@@ -171,7 +171,7 @@ def go_fish_ask(player_values, player_name):
     while True:
         print(f"Here are the cards you can ask for: {player_values}")
         player_choice = input(
-            "Which option do you want to ask the computer?  ")
+            "Which card do you want to ask for?  ")
         player_choice = player_choice.capitalize()
         if player_choice in player_values:
             print(f'{player_name} is asking, "Do you have any {player_choice}s?')

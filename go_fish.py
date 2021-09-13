@@ -17,7 +17,9 @@ player_hand, remaining_deck = starting_hand(full_deck(), 7)
 computer_hand, remaining_deck = starting_hand(remaining_deck, 7)
 player_hand.sort()
 player_name = input("Enter your name: ")
+computer_name = input(f"Thanks {player_name}! Now enter your challenger's name: ")
 player_name = player_name.capitalize()
+computer_name = computer_name.capitalize()
 print(f"Here is {player_name}'s hand: {player_hand}\n")
 time.sleep(2)
 player_score = 0
@@ -34,7 +36,7 @@ player_hand, player_score, player_values = check_for_matches(
     player_name, player_hand, player_score, player_values)
 
 computer_hand, computer_score, computer_values = check_for_matches(
-    "The computer", computer_hand, computer_score, computer_values)
+    computer_name, computer_hand, computer_score, computer_values)
 
 points_display(player_score, computer_score, player_hand, computer_hand)
 
@@ -51,7 +53,7 @@ while True:
 
         # checking answer...
         if player_choice in computer_values:
-            print(f"The computer has a {player_choice}!")
+            print(f"{computer_name} has a {player_choice}!")
             player_score += 2
             player_values.remove(player_choice)
             computer_values.remove(player_choice)
@@ -65,7 +67,7 @@ while True:
             if len(player_hand) == 0 or len(computer_hand) == 0:
                 check_game_end()
         else:
-            print(f"The computer doesn't have any {player_choice}s. Go Fish!")
+            print(f"{computer_name} doesn't have any {player_choice}s. Go Fish!")
             picked_up_card = remaining_deck[0][0]
             print("You picked up card:", remaining_deck[0])
 
@@ -81,6 +83,7 @@ while True:
             else:
                 player_hand.append(remaining_deck[0])
                 player_values = values_only(player_hand)
+                player_values.sort()
                 remaining_deck.pop(0)
                 player_hand, player_score, player_values = check_for_matches(
                     player_name, player_hand, player_score, player_values)
@@ -97,10 +100,10 @@ while True:
     while True:
         computer_choice_index = random.randint(0, (len(computer_values)-1))
         computer_choice = computer_values[computer_choice_index]
-        print(f"The computer asks, do you have any {computer_choice}s?")
+        print(f"{computer_name} asks, do you have any {computer_choice}s?")
         if computer_choice in player_values:
             print(
-                f"You have a {computer_choice} so you give it to the computer. There's no cheating in this game!😁")
+                f"You have a {computer_choice} so you give it to {computer_name}. There's no cheating in this game!😁")
             computer_score += 2
             player_values.remove(computer_choice)
             computer_values.remove(computer_choice)
@@ -115,7 +118,7 @@ while True:
             print(f"{player_name} doesn't have any {computer_choice}s. Go Fish!!")
             picked_up_card_comp = remaining_deck[0][0]
             if picked_up_card == computer_choice:
-                print(f"The computer picked up the card they asked for. Go again!")
+                print(f"{computer_name} picked up the card they asked for. Go again!")
                 remaining_deck.pop(0)
                 computer_score += 2
                 computer_values.remove(computer_choice)
@@ -127,10 +130,9 @@ while True:
                 computer_values = values_only(computer_hand)
                 remaining_deck.pop(0)
                 computer_hand, computer_score, computer_values = check_for_matches(
-                    "The computer", computer_hand, computer_score, computer_values)
+                    computer_name, computer_hand, computer_score, computer_values)
                 points_display(player_score, computer_score,
                                player_hand, computer_hand)
                 time.sleep(1)
                 break
 
-        # player_hand, computer_hand, remaining_deck, player_score = go_fish_check(player_choice, player_score, player_hand, "The computer", computer_hand, remaining_deck)
