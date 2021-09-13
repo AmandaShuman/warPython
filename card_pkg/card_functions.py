@@ -1,11 +1,12 @@
 from hashlib import new
+from os import dup
 import random
 import time
 import sys
 
-#====================================================================================================
+# =============================================================================
 #                                     GLOBAL VARIABLES
-#====================================================================================================
+# =============================================================================
 num_cards = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
 
 spade = chr(9824)
@@ -16,9 +17,9 @@ suits = [heart, spade, diamond, club]
 deck = []
 
 
-# ===================================================================================================
+# =============================================================================
 #                       FUNCTIONS TO BE USED FOR SEVERAL CARD GAMES
-# ===================================================================================================
+# =============================================================================
 def full_deck():
     """
     Mixing two lists into one list by adding each element to the other
@@ -76,7 +77,7 @@ def starting_hand(deck, num_cards):
     return player_hand, deck
 
 
-def who_wins(player_score, computer_score):
+def who_wins(player_score, computer_score, player_hand, computer_hand):
     """
     Returns a message to the user about who won the game
     Args:
@@ -88,18 +89,21 @@ def who_wins(player_score, computer_score):
             The game is over!
     ++++++++++++++++++++++++++++++++++++
     """)
+    points_display(player_score, computer_score,
+                   player_hand, computer_hand)
     if player_score > computer_score:
         print("You've won! Congrats!!")
     elif computer_score > player_score:
         print("The computer has won this round. Try again.")
     else:
         print("It's a tie!")
+    sys.exit()
 
 
-#===================================================================================================
+# =============================================================================
 #                       FUNCTIONS FOR GO FISH
-#===================================================================================================
-def check_for_matches(player, deck, player_score):
+# =============================================================================
+def check_for_matches(player, deck, player_score, player_values):
     """
     Checks to see if there is a matching pair in the player's deck by sorting the deck and then looking at the first value of each string to compare equality.
     Args:
@@ -111,19 +115,31 @@ def check_for_matches(player, deck, player_score):
         player_score - player's score after adding matches to it
     """
     deck.sort()
-    deck_to_check = [card[0] for card in deck]
     points = player_score
-    for card in deck_to_check:
-        if deck_to_check.count(card) > 1:
-            print(f"{player} got a match!")
-            deck_to_check.remove(card)
-            deck_to_check.remove(card)
+    duplicates = []
+    for card in player_values:
+        if player_values.count(card) > 1:
+            print(f"{player} got a pair of {card}s!")
+            player_values.remove(card)
+            player_values.remove(card)
+            duplicates.append(card)
             points += 2
-    new_deck = [card for card in deck if card[0] in deck_to_check]
-    return new_deck, points
+    duplicates = tuple(duplicates)
+    new_deck = [card for card in deck if not card.startswith(duplicates)]
+    new_player_values = player_values
+    return new_deck, points, new_player_values
 
 
-def values_only(deck):  #fix this to account for 10 display
+def remove_paired_card(player_choice, player_hand):
+    list = []
+    list.append(player_choice)
+    list = tuple(list)
+    new_hand = [card for card in player_hand if not card.startswith(list)]
+    return new_hand
+    
+
+
+def values_only(deck):  
     """
     We only care about the value of the card in the deck, not the suit so we are taking out the values to compare.
     Arguments:
@@ -132,6 +148,15 @@ def values_only(deck):  #fix this to account for 10 display
         Returns a list with only the first element of each string from the original deck
     """
     return [card[:2] if card[0] == '1' else card[0] for card in deck]
+
+
+def points_display(player_score, computer_score, player_hand, computer_hand):
+    print(f"""---------------------------------------------
+Scores:         You: {player_score}      || Computer: {computer_score}
+---------------------------------------------
+Card Count:     You: {len(player_hand)}      || Computer: {len(computer_hand)}
+---------------------------------------------
+    """)
 
 
 def go_fish_ask(player_values, player_name):
@@ -145,7 +170,8 @@ def go_fish_ask(player_values, player_name):
     """
     while True:
         print(f"Here are the cards you can ask for: {player_values}")
-        player_choice = input("Which option do you want to ask the computer?  ")
+        player_choice = input(
+            "Which option do you want to ask the computer?  ")
         player_choice = player_choice.capitalize()
         if player_choice in player_values:
             print(f'{player_name} is asking, "Do you have any {player_choice}s?')
@@ -156,35 +182,9 @@ def go_fish_ask(player_values, player_name):
     return player_choice
 
 
-def go_fish_check(player_choice, player_points, player_deck, opponent_name, opponent_deck, remaining_deck):
-    player_values = values_only(player_deck)
-    opponent_values = values_only(opponent_deck)
-    points = player_points
-    if player_choice in opponent_values:
-        print(f"{opponent_name} has a {player_choice}!")
-        points += 2
-        player_values.remove(player_choice)
-        opponent_values.remove(player_choice)
-        new_player_hand = [card for card in player_deck if card[0] in player_values]
-        new_opponent_hand = [card for card in opponent_deck if card[0] in opponent_values]
-        new_remaining_deck = remaining_deck[:]
-    else:
-        print(f"{opponent_name} doesn't have any {player_choice}'s. Go Fish!")
-        new_opponent_hand = opponent_deck[:]
-        card_pick = random.randint(0, (len(remaining_deck)-1))
-        new_player_hand = player_deck.append(deck[card_pick])
-        new_remaining_deck = remaining_deck[:]
-        new_remaining_deck.pop(card_pick)
-        points += 0
-
-    return new_player_hand, new_opponent_hand, new_remaining_deck, points
-
-
-# ====================================================================================================
-#                       FUNCTIONS JUST FOR WAR (BUT USEFUL FOR COUNTING CARD VALUES)
-# ====================================================================================================
-
-
+# =============================================================================
+#         FUNCTIONS JUST FOR WAR (BUT USEFUL FOR COUNTING CARD VALUES)
+# =============================================================================
 def card_points(card):
     """
     Evaluates card points based on value of card incrementing up from 10, Jack, Queen, King, to Ace.
@@ -222,9 +222,9 @@ def card_points(card):
     return points
 
 
-# ====================================================================================================
+# =============================================================================
 #                       FUNCTIONS NOT YET USED, BUT USEFUL FOR FUTURE
-# ====================================================================================================
+# =============================================================================
 def subdeck(name):
     """
     Diving up a list into sublists based on user request. 
@@ -238,22 +238,26 @@ def subdeck(name):
     print(sub_list)
 
 
-# ====================================================================================================
+# =============================================================================
 #                       DEV TESTING FUNCTIONS
-# ====================================================================================================
+# =============================================================================
 def check_for_matches_check():
-    trial_deck = ['5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
+    trial_deck = ['10♥', '5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
+    player_values = ['10', '5', '6', '7', '7', 'J', 'K', 'K']
     trial_score = 0
-    trial_deck, trial_score = check_for_matches("You", trial_deck, trial_score)
-    print(trial_deck)
-    print(trial_score)
+    trial_deck, trial_score, player_values = check_for_matches(
+        "You", trial_deck, trial_score, player_values)
+    print("Your hand", trial_deck)
+    print("Your score:", trial_score)
+    print("Player values:", player_values)
 
 
 def check_values_only():
-    trial_deck = ['5♥', '6♥', '7♠', '7♦', '10♥', 'J♦', 'K♥', 'K♦']
+    trial_deck = ['5♥', '6♥', '7♠', '10♥', 'J♦', 'K♥']
     player_values = values_only(trial_deck)
-    print(player_values)
+    print("Values you can play:", player_values)
 
 
 if __name__ == '__main__':
+    check_for_matches_check()
     check_values_only()
