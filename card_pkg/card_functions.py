@@ -1,5 +1,5 @@
-# from hashlib import new
-# from os import dup
+from hashlib import new
+from os import dup
 import random
 import time
 import sys
