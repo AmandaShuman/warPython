@@ -22,5 +22,6 @@ This is the first card game added. As more games are added, there will be option
 7 - list comprehensions! I understand them enough to write them on my own now.
 8 - working with tuples to use .startswith() for removing values
 9 - converting a list to a string
-10 - using .find() 
-11 - using slice()
+10 - using find() to find values in a string 
+11 - using slice() to add various parts of a string to a list
+12 - index() only works for lists and only for exact matches
