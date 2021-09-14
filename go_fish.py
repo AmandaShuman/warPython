@@ -9,7 +9,7 @@ def check_game_end():
     if len(player_hand) == 0 or len(computer_hand) == 0:
         who_wins(player_score, computer_score, player_hand, computer_hand, rounds_played)
 
-# go_fish_rules()
+go_fish_rules()
 
 
 # setting up the game to begin play
