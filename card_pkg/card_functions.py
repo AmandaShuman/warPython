@@ -82,7 +82,7 @@ def starting_hand(deck, num_cards):
     return player_hand, new_deck
 
 
-def who_wins(player_score, computer_score, player_hand, computer_hand):
+def who_wins(player_score, computer_score, player_hand, computer_hand, rounds_played):
     """
     Returns a message to the user about who won the game
     Args:
@@ -97,7 +97,7 @@ def who_wins(player_score, computer_score, player_hand, computer_hand):
     ++++++++++++++++++++++++++++++++++++
     """)
     points_display(player_score, computer_score,
-                   player_hand, computer_hand)
+                   player_hand, computer_hand, rounds_played)
     if player_score > computer_score:
         print("You've won! Congrats!!")
     elif computer_score > player_score:
@@ -179,8 +179,10 @@ def values_only(deck):
     return [card[:2] if card[0] == '1' else card[0] for card in deck]
 
 
-def points_display(player_score, computer_score, player_hand, computer_hand):
+def points_display(player_score, computer_score, player_hand, computer_hand, rounds_played):
     print(f"""---------------------------------------------
+           Rounds played: {rounds_played}       
+---------------------------------------------
 Scores:         You: {player_score}      || Computer: {computer_score}
 ---------------------------------------------
 Card Count:     You: {len(player_hand)}      || Computer: {len(computer_hand)}

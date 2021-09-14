@@ -1,13 +1,13 @@
 # This is the code to play the card game go Fish
 import time
 import random
-from card_pkg.card_functions import full_deck, go_fish_ask, starting_hand, check_for_matches, values_only, who_wins, points_display, remove_paired_card
+from card_pkg.card_functions import full_deck, go_fish_ask, starting_hand, check_for_matches, values_only, who_wins, points_display, remove_paired_card, keep_playing
 from card_pkg.game_rules import go_fish_rules
 
 
 def check_game_end():
     if len(player_hand) == 0 or len(computer_hand) == 0:
-        who_wins(player_score, computer_score, player_hand, computer_hand)
+        who_wins(player_score, computer_score, player_hand, computer_hand, rounds_played)
 
 # go_fish_rules()
 
@@ -37,6 +37,7 @@ print(f"Here is {player_name}'s hand: {player_hand}\n")
 time.sleep(2)
 player_score = 0
 computer_score = 0
+rounds_played = 0
 
 # check for matches in hands of player and computer
 print("""
@@ -51,7 +52,7 @@ player_hand, player_score, player_values = check_for_matches(
 computer_hand, computer_score, computer_values = check_for_matches(
     computer_name, computer_hand, computer_score, computer_values)
 
-points_display(player_score, computer_score, player_hand, computer_hand)
+points_display(player_score, computer_score, player_hand, computer_hand, rounds_played)
 
 print("Now that the setup is done... it's time to play GO FISH!! \n")
 time.sleep(1)
@@ -65,6 +66,7 @@ while True:
         player_choice = go_fish_ask(player_values, player_name)
         computer_check = []
         computer_check.append(player_choice)  # for hard level
+        rounds_played += 1
 
         # checking answer...
         if player_choice in computer_values:
@@ -76,7 +78,7 @@ while True:
             player_hand = remove_paired_card(player_choice, player_hand)
             computer_hand = remove_paired_card(player_choice, computer_hand)
             points_display(player_score, computer_score,
-                           player_hand, computer_hand)
+                           player_hand, computer_hand, rounds_played)
             time.sleep(2)
 
             # end game if someone runs out of cards
@@ -105,7 +107,7 @@ while True:
                 player_hand, player_score, player_values = check_for_matches(
                     player_name, player_hand, player_score, player_values)
                 points_display(player_score, computer_score,
-                               player_hand, computer_hand)
+                               player_hand, computer_hand, rounds_played)
                 time.sleep(2)
                 break
 
@@ -145,6 +147,7 @@ while True:
                 computer_choice = overlap_list[computer_choice_index]
                 computer_check.remove(computer_choice)
 
+        rounds_played += 1
         print(f"{computer_name} asks, do you have any {computer_choice}s?")
         if computer_choice in player_values:
             print(
@@ -155,7 +158,7 @@ while True:
             player_hand = remove_paired_card(computer_choice, player_hand)
             computer_hand = remove_paired_card(computer_choice, computer_hand)
             points_display(player_score, computer_score,
-                           player_hand, computer_hand)
+                           player_hand, computer_hand, rounds_played)
             time.sleep(1)
             if len(player_hand) == 0 or len(computer_hand) == 0:
                 check_game_end()
@@ -179,6 +182,8 @@ while True:
                 computer_hand, computer_score, computer_values = check_for_matches(
                     computer_name, computer_hand, computer_score, computer_values)
                 points_display(player_score, computer_score,
-                               player_hand, computer_hand)
+                               player_hand, computer_hand, rounds_played)
                 time.sleep(1)
                 break
+
+    keep_playing()
