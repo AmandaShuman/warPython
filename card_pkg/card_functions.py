@@ -113,6 +113,7 @@ def who_wins(player_score, computer_score, player_hand, computer_hand):
 def check_for_matches(player, player_hand, player_score, player_values):
     """
     Checks to see if there is a matching pair in the player's deck by sorting the deck and then looking at the first value of each string to compare equality.
+    Second half of code produces the player's original hand after matches have been made.
     Args:
         player - the player/computer checking for matches
         deck - the player/computer's hand

@@ -20,4 +20,7 @@ This is the first card game added. As more games are added, there will be option
 5 - how to copy a list 
 6 - how to include if/else statements in list comprehensions
 7 - list comprehensions! I understand them enough to write them on my own now.
-8 - working with tuples to remove 
+8 - working with tuples to use .startswith() for removing values
+9 - converting a list to a string
+10 - using .find() 
+11 - using slice()
