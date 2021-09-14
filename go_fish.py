@@ -11,20 +11,24 @@ def check_game_end():
 
 # go_fish_rules()
 
+
 # setting up the game to begin play
 player_hand, remaining_deck = starting_hand(full_deck(), 7)
 computer_hand, remaining_deck = starting_hand(remaining_deck, 7)
 player_hand.sort()
 player_name = input("Enter your name: ")
-computer_name = input(f"Thanks {player_name}! Now enter your challenger's name: ")
+computer_name = input(
+    f"Thanks {player_name}! Now enter your challenger's name: ")
 player_name = player_name.capitalize()
 computer_name = computer_name.capitalize()
 
 while True:
-    difficulty_setting = input(f"What difficulty mode would you like? 'Easy' or 'Hard': ")
+    difficulty_setting = input(
+        f"What difficulty mode would you like? 'Easy' or 'Hard': ")
     difficulty_setting = difficulty_setting.capitalize()
     if difficulty_setting == "Easy" or difficulty_setting == "Hard":
-        print(f"You have chosen to play the {difficulty_setting} setting. Good luck!")
+        print(
+            f"You have chosen to play the {difficulty_setting} setting. Good luck!")
         break
     else:
         print("You may only enter Easy or Hard. Try again.")
@@ -60,7 +64,7 @@ while True:
         print(f"Here is your hand:", player_hand)
         player_choice = go_fish_ask(player_values, player_name)
         computer_check = []
-        computer_check.append(player_choice) # for hard level
+        computer_check.append(player_choice)  # for hard level
 
         # checking answer...
         if player_choice in computer_values:
@@ -81,10 +85,10 @@ while True:
         else:
             print(f"{computer_name} doesn't have any {player_choice}s. Go Fish!")
             picked_up_card = remaining_deck[0][0]
-            print("You picked up card:", remaining_deck[0])
+            print("You fished card:", remaining_deck[0])
 
             # if player picks up same card asked for and gets to go again
-            if picked_up_card == player_choice:
+            if picked_up_card == player_choice[0]:
                 print(f"{player_name} picked up the card they asked for. Go again!")
                 computer_check.remove(player_choice)
                 remaining_deck.pop(0)
@@ -116,13 +120,13 @@ while True:
             computer_choice_index = random.randint(0, (len(computer_values)-1))
             computer_choice = computer_values[computer_choice_index]
         # TO DO
-        else: 
+        else:
             # remove doubles from list of values player has asked for
             computer_check.sort()
             for card in computer_check:
                 if computer_check.count(card) > 1:
                     computer_check.remove(card)
-            
+
             overlap_check = computer_check + computer_values
             overlap_check.sort()
             overlap_list = []
@@ -132,10 +136,12 @@ while True:
                     overlap_check.remove(value)
                     overlap_check.remove(value)
             if overlap_list == []:
-                computer_choice_index = random.randint(0, (len(computer_values)-1))
+                computer_choice_index = random.randint(
+                    0, (len(computer_values)-1))
                 computer_choice = computer_values[computer_choice_index]
             else:
-                computer_choice_index = random.randint(0, (len(overlap_list)-1))
+                computer_choice_index = random.randint(
+                    0, (len(overlap_list)-1))
                 computer_choice = overlap_list[computer_choice_index]
                 computer_check.remove(computer_choice)
 
@@ -156,12 +162,14 @@ while True:
         else:
             print(f"{player_name} doesn't have any {computer_choice}s. Go Fish!!")
             picked_up_card_comp = remaining_deck[0][0]
-            if picked_up_card == computer_choice:
-                print(f"{computer_name} picked up the card they asked for. Go again!")
+            if picked_up_card_comp == computer_choice[0]:
+                print(
+                    f"{computer_name} picked up the card they asked for. Go again!")
                 remaining_deck.pop(0)
                 computer_score += 2
                 computer_values.remove(computer_choice)
-                computer_hand = remove_paired_card(computer_choice, computer_hand)
+                computer_hand = remove_paired_card(
+                    computer_choice, computer_hand)
                 if len(player_hand) == 0 or len(computer_hand) == 0:
                     check_game_end()
             else:
@@ -174,4 +182,3 @@ while True:
                                player_hand, computer_hand)
                 time.sleep(1)
                 break
-
