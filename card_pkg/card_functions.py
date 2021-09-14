@@ -1,5 +1,5 @@
-from hashlib import new
-from os import dup
+# from hashlib import new
+# from os import dup
 import random
 import time
 import sys
@@ -23,6 +23,8 @@ deck = []
 def full_deck():
     """
     Mixing two lists into one list by adding each element to the other
+    Args:
+        none
     Returns:
         A full shuffled deck where each numbered card gets a suit - repeated for each suit.
     """
@@ -38,10 +40,12 @@ def full_deck():
 def keep_playing():
     """
     Gives player option to continue playing or quit playing by typing "q" at any point.
+    Args:
+        none
     Returns:
         Allows player to continue with game OR to quit game.
     Raises:
-        else: returns an exemption
+        else: returns an exemption if anything other than q or quit typed in
     """
     while True:
         choice = input("Press Enter to keep playing or type 'Q' to quit:  ")
@@ -59,22 +63,23 @@ def keep_playing():
 def starting_hand(deck, num_cards):
     """
     Make subdeck from given deck and removes subdeck cards from deck
-    Arguments:
+    Args:
         deck - this is the beginning deck to pull cards from
         num_cards - the size of the subdeck you want
     Returns:
         player_hand - list containing the cards for the player
-        deck - deck without player_hand cards in it (to be used for multiple players and/or computer for subsequent uses)
+        new_deck - deck without player_hand cards in it (to be used for multiple players and/or computer for subsequent uses)
     """
     player_hand = []
+    new_deck = deck[:]
     max_index = len(deck) - 1
     for _ in range(num_cards):
         # use _ instead of i when you don't need to use the variable
         card_pick = random.randint(0, max_index)
         player_hand.append(deck[card_pick])
-        deck.pop(card_pick)
+        new_deck.pop(card_pick)
         max_index -= 1
-    return player_hand, deck
+    return player_hand, new_deck
 
 
 def who_wins(player_score, computer_score, player_hand, computer_hand):
@@ -83,6 +88,8 @@ def who_wins(player_score, computer_score, player_hand, computer_hand):
     Args:
         player_score = the player's final score
         computer_score = the computer's final score
+        player_hand = the cards in the player's hand
+        computer_hand = the cards in the computer's hand
     """
     print("""
     ++++++++++++++++++++++++++++++++++++
@@ -103,34 +110,56 @@ def who_wins(player_score, computer_score, player_hand, computer_hand):
 # =============================================================================
 #                       FUNCTIONS FOR GO FISH
 # =============================================================================
-def check_for_matches(player, deck, player_score, player_values):
+def check_for_matches(player, player_hand, player_score, player_values):
     """
     Checks to see if there is a matching pair in the player's deck by sorting the deck and then looking at the first value of each string to compare equality.
     Args:
         player - the player/computer checking for matches
         deck - the player/computer's hand
         player_score - the current running score for the player
+        player_values - the value (without suit) 
     Returns:
-        deck - the player's hand after matches have been checked
-        player_score - player's score after adding matches to it
+        new_player_hand - the player's hand after matches have been checked
+        points - player's score after adding matches to it
+        new_player_values - the values in the player's hand (without suits)
     """
-    deck.sort()
+    player_hand.sort()
     points = player_score
-    duplicates = []
-    for card in player_values:
-        if player_values.count(card) > 1:
+    new_player_values = player_values[:]
+    for card in new_player_values:
+        if new_player_values.count(card) > 1:
             print(f"{player} got a pair of {card}s!")
-            player_values.remove(card)
-            player_values.remove(card)
-            duplicates.append(card)
+            new_player_values.remove(card)
+            new_player_values.remove(card)
             points += 2
-    duplicates = tuple(duplicates)
-    new_deck = [card for card in deck if not card.startswith(duplicates)]
-    new_player_values = player_values
-    return new_deck, points, new_player_values
+
+    # convert player_hand list to a single string
+    player_hand_string = ""
+    for card in player_hand:
+        player_hand_string += card + " "
+    
+    length = len(new_player_values)
+    new_player_hand = []
+    for i in range(length):
+        value = new_player_values[i]
+        index = player_hand_string.find(value)
+        index_end = player_hand_string.find(" ", index)
+        sliced_card = slice(index, index_end)
+        card = player_hand_string[sliced_card]
+        new_player_hand.append(card)
+
+    return new_player_hand, points, new_player_values
 
 
 def remove_paired_card(player_choice, player_hand):
+    """
+    Removes a card from a player's hand if a matching card is drawn.
+    Args:
+        player_choice = the value the player matched 
+        player_hand = the cards in the player's hand
+    Returns:
+        new_hand = the new player's cards after the match has been removed
+    """
     list = []
     list.append(player_choice)
     list = tuple(list)
@@ -138,14 +167,13 @@ def remove_paired_card(player_choice, player_hand):
     return new_hand
     
 
-
 def values_only(deck):  
     """
     We only care about the value of the card in the deck, not the suit so we are taking out the values to compare.
     Arguments:
         deck - the deck you want to look at values
     Returns:
-        Returns a list with only the first element of each string from the original deck
+        Returns a list with only the first element of each string from the original deck except for 2 first elements for 10.
     """
     return [card[:2] if card[0] == '1' else card[0] for card in deck]
 
@@ -241,10 +269,11 @@ def subdeck(name):
 # =============================================================================
 #                       DEV TESTING FUNCTIONS
 # =============================================================================
-def check_for_matches_check():
-    trial_deck = ['10♥', '5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦']
-    player_values = ['10', '5', '6', '7', '7', 'J', 'K', 'K']
+def testing_for_matches_check():
+    trial_deck = ['10♥', '5♥', '6♥', '7♠', '7♦', 'J♦', 'K♥', 'K♦', 'K♦']
+    player_values = ['10', '5', '6', '7', '7', 'J', 'K', 'K', 'K']
     trial_score = 0
+    print("Here is the original hand:", trial_deck)
     trial_deck, trial_score, player_values = check_for_matches(
         "You", trial_deck, trial_score, player_values)
     print("Your hand", trial_deck)
@@ -252,12 +281,12 @@ def check_for_matches_check():
     print("Player values:", player_values)
 
 
-def check_values_only():
+def testing_values_only():
     trial_deck = ['5♥', '6♥', '7♠', '10♥', 'J♦', 'K♥']
     player_values = values_only(trial_deck)
     print("Values you can play:", player_values)
 
 
 if __name__ == '__main__':
-    check_for_matches_check()
-    check_values_only()
+    testing_for_matches_check()
+    # testing_values_only()
