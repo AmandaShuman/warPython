@@ -17,9 +17,9 @@ player_hand, remaining_deck = starting_hand(full_deck(), 7)
 computer_hand, remaining_deck = starting_hand(remaining_deck, 7)
 player_hand.sort()
 player_name = input("Enter your name: ")
+player_name = player_name.capitalize()
 computer_name = input(
     f"Thanks {player_name}! Now enter your challenger's name: ")
-player_name = player_name.capitalize()
 computer_name = computer_name.capitalize()
 
 while True:
